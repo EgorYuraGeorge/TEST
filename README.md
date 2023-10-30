@@ -9,22 +9,22 @@
 https://hexly.notion.site/d9289c18871c44508bc7c7f05a51d94f
 
 1. Ssh-keygen
-    2. cat ~/.ssh/id_rsa.pub → enter enter enter
-    3. copy ssh to github and generate new key
-    4. ssh -T git@github.com
-    5. ssh -T git@github.com
-    6. git clone //ssh repository link//
-    7. open folder that you needed in Terminal
-    8. cat Makefile
-    9. make install
-    10. code index.js
-    11. after coding — ctrl s
-    12. node index.js
-    13. make test
-    14. make lint
-    15. make lint-fix
-    16. ctrl s
-    17. make lint
-    18. git add -A
-    19. git commit -m «task»
-    20. git push
+2. cat ~/.ssh/id_rsa.pub → enter enter enter
+3. copy ssh to github and generate new key
+4. ssh -T git@github.com
+5. ssh -T git@github.com
+6. git clone //ssh repository link//
+7. open folder that you needed in Terminal
+8. cat Makefile
+9. make install
+10. code index.js
+11. after coding — ctrl s
+12. node index.js
+13. make test
+14. make lint
+15. make lint-fix
+16. ctrl s
+17. make lint
+18. git add -A
+19. git commit -m «task»
+20. git push
