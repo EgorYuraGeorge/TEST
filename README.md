@@ -20,10 +20,7 @@
 14. git add,  git add -A,  git commit -m "task1",  git push
 15. Можно посмотреть решение задач Максима по пробнику (Mattermost или Хекслет Ютуб канал)
 
-*Наводящие вопросы по функциям*
-- Что мне дано? Какие свойства
-- Что от меня хотят?
-- Как мне это сделать?
+
 Большинтсво функций можно найти в Mozilla / Веб-технологии для разработчиков / Math
 
 
@@ -37,22 +34,22 @@
 
 https://hexly.notion.site/d9289c18871c44508bc7c7f05a51d94f
 
-1. Ssh-keygen
-2. cat ~/.ssh/id_rsa.pub → enter enter enter
-3. copy ssh to github and generate new key
+1. ssh-keygen -t rsa
+2. cat ~/.ssh/id_rsa.pub (enter enter enter)
+3. Копируем SSH в Github и генерируем новый ключ через настройки
 4. ssh -T git@github.com
-5. ssh -T git@github.com
-6. git clone //ssh repository link//
-7. open folder that you needed in Terminal
+5. // *1-4 нужны при работе с нового компа*
+6. git clone {Зелёная SSH-ссылка}
+7. ls - cd {название папки} 
 8. cat Makefile
 9. make install
 10. code index.js
-11. after coding — ctrl s
+11. // *Автосохранение*
 12. node index.js
 13. make test
 14. make lint
 15. make lint-fix
-16. ctrl s
+16. // *Если остались ошибки - дело в файле*
 17. make lint
 18. git add -A
 19. git commit -m «task»
