@@ -76,3 +76,136 @@ rm [название] - удаляет файл/папку.
     - Войдите в свой профиль на гитхабе. Зайдите в настройки профиля (клик по иконке профиля справа вверху, настройки), перейдите в раздел "SSH-ключи", нажмите New ssh key. Ведите имя ключа в поле сверху, а все прочитанное содержимое нового ключа в поле ниже. Затем нажмите кнопку добавить.
 3. Снова проверьте команду `ssh -T git@github.com`. В случае успеха вы должны увидеть приветствие по имени аккаунта.
 4. Склонируйте репозиторий по SSH(!), попробуйте сделать коммит и запушить. Гит попросит вас установить глобальное имя пользователя и почту. Воспользуйтесь командами, которые подсказывает терминал и напишите глобальное имя, которое является вашим никнеймом на гитхабе и почту без кавычек. Снова попробуйте запушить. Если пуш прошел, значит вы успешно настроили окружение.
+
+
+   __SAMDO-1__
+
+
+//1. index.js
+
+import Validator from './src/Validator.js';
+
+export default Validator;
+
+//2. Validator.js
+
+import NumberValidator from "./NumberSchema.js";
+import ArrayValidator from "./ArraySchema.js";
+import ObjectValidator from "./ObjectSchema.js";
+
+class Validator {
+  // Метод, создающий валидатор для чисел
+  number() {
+    return new NumberValidator();
+  }
+
+  array() {
+    return new ArrayValidator();
+  }
+
+  object() {
+    return new ObjectValidator();
+  }
+}
+
+// Экспортируем класс Validator
+export default Validator;
+
+//3. NumberSchema.js
+
+class NumberValidator {
+    isValid(value) {
+      // Проверяем, является ли значение числом
+      return typeof value === 'number' && !isNaN(value);
+    }
+  }
+
+export default NumberValidator;
+
+//4. ArraySchema.js
+
+class ArrayValidator {
+  constructor() {
+    this.checkIntegers = false; // Флаг для проверки целых чисел
+    this.customValidator = null; // Кастомная функция валидации
+  }
+
+  // Метод для проверки, является ли значение массивом
+  isValid(value) {
+    // Проверка, что входное значение — массив
+    if (!Array.isArray(value)) {
+      return false;
+    }
+
+    // Если активна проверка на целые числа, проверяем каждый элемент
+    if (this.checkIntegers && !value.every(item => Number.isInteger(item))) {
+      return false;
+    }
+
+    // Если задана кастомная функция, проверяем каждый элемент с её помощью
+    if (this.customValidator && !value.every(item => this.customValidator(item))) {
+      return false;
+    }
+
+    return true;
+  }
+
+  // Метод для активации проверки, что все элементы — целые числа
+  allIntegers() {
+    this.checkIntegers = true;
+    return this;
+  }
+
+  // Метод для задания кастомной функции валидации
+  custom(validatorFn) {
+    this.customValidator = validatorFn;
+    return this;
+  }
+}
+
+export default ArrayValidator
+
+//5. ObjectSchema.js
+
+class ObjectValidator {
+    constructor() {
+      this.shapeValidators = {}; // Схема валидации
+    }
+  
+    // Метод для задания схемы валидации
+    shape(validators) {
+      // Рекурсивно преобразуем вложенные объекты в ObjectValidator
+      this.shapeValidators = Object.entries(validators).reduce((acc, [key, validator]) => {
+        if (typeof validator === 'object' && !(validator.isValid instanceof Function)) {
+          // Если это объект, а не валидатор, превращаем его в ObjectValidator
+          acc[key] = new ObjectValidator().shape(validator);
+        } else {
+          acc[key] = validator;
+        }
+        return acc;
+      }, {});
+  
+      return this;
+    }
+  
+    // Метод проверки объекта
+    isValid(obj) {
+      if (typeof obj !== 'object' || obj === null || Array.isArray(obj)) {
+        return false; // Не является объектом
+      }
+  
+      // Проверяем каждое поле по заданным валидаторам
+      for (const [key, validator] of Object.entries(this.shapeValidators)) {
+        const value = obj[key];
+  
+        if (!validator.isValid(value)) {
+          return false; // Поле не прошло валидацию
+        }
+      }
+  
+      return true; // Все проверки прошли
+    }
+  }
+  
+  export default ObjectValidator;
+
